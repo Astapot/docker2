@@ -1,5 +1,6 @@
 from rest_framework.filters import SearchFilter
-from rest_framework.pagination import PageNumberPagination, LimitOffsetPagination
+from rest_framework.pagination \
+    import LimitOffsetPagination
 from rest_framework.viewsets import ModelViewSet
 
 from logistic.models import Product, Stock

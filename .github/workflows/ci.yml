@@ -1,0 +1,49 @@
+name: dz ci_cd
+
+on:
+  push:
+    branches: [main]
+    
+jobs:
+  testing:
+    runs-on: ubuntu-22.04
+    env:
+      KEY_SECRET: ${{secrets.DJANGO_SECRET}}
+      IS_DEBUG: ${{secrets.DJANGO_DEBUG}}
+      HOSTS: ${{secrets.ALLOWED_HOSTS}}
+      DATABASE_ENGINE: ${{secrets.DATABASE_ENGINE}}
+      DATABASE_NAME: ${{secrets.DATABASE_NAME}}
+      DATABASE_USER: ${{secrets.DATABASE_USER}}
+      DATABASE_PASSWORD: ${{secrets.DATABASE_PASSWORD}}
+      DATABASE_PORT: ${{secrets.DATABASE_PORT}}
+      DATABASE_HOST: ${{secrets.DATABASE_HOST}}
+    services:
+      postgresql_service:
+        image: postgres:12
+        env:
+          POSTGRES_DB: ${{env.DATABASE_NAME}}
+          POSTGRES_USER: ${{env.DATABASE_USER}}
+          POSTGRES_PASSWORD: ${{env.DATABASE_PASSWORD}}
+        ports:
+          - 5432:5432
+        options:
+          --health-cmd pg_is_ready
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - name: Проверка наличия изменений
+        uses: actions/checkout@v3
+        
+      - name: Установка python и доп библиотек
+        uses: actions/setup-python@v4
+        
+      - name: Установка зависимостей проекта
+        run: pip install -r requirements.txt
+        
+      - name: Линтинг
+        run: flake8 logistic --exclude logistic/migrations
+        
+      - name: Тестирование
+        run: python manage.py test
+        env:
