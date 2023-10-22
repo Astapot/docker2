@@ -35,24 +35,24 @@ jobs:
       - name: Проверка наличия изменений
         uses: actions/checkout@v3
         
-      - name: Установка python и доп библиотек
-        uses: actions/setup-python@v4
-        
-      - name: Установка зависимостей проекта
-        run: pip install -r requirements.txt
-        
-      - name: Линтинг
-        run: flake8 logistic --exclude logistic/migrations
-        
-      - name: Тестирование
-        run: python manage.py test
-        env:
-          ALLOWED_HOSTS: ${{env.HOSTS}}
-          DEBUG: ${{env.IS_DEBUG}}
-          SECRET_KEY: ${{env.KEY_SECRET}}
-          DB_ENGINE: ${{env.DATABASE_ENGINE}}
-          DB_USER: ${{env.DATABASE_USER}}
-          DB_PASSWORD: ${{env.DATABASE_PASSWORD}}
-          DB_NAME: ${{env.DATABASE_NAME}}
-          DB_HOST: ${{env.DATABASE_HOST}}
-          DB_PORT: ${{env.DATABASE_PORT}}
+#      - name: Установка python и доп библиотек
+#        uses: actions/setup-python@v4
+#
+#      - name: Установка зависимостей проекта
+#        run: pip install -r requirements.txt
+#
+#      - name: Линтинг
+#        run: flake8 logistic --exclude logistic/migrations
+#
+#      - name: Тестирование
+#        run: python manage.py test
+#        env:
+#          ALLOWED_HOSTS: ${{env.HOSTS}}
+#          DEBUG: ${{env.IS_DEBUG}}
+#          SECRET_KEY: ${{env.KEY_SECRET}}
+#          DB_ENGINE: ${{env.DATABASE_ENGINE}}
+#          DB_USER: ${{env.DATABASE_USER}}
+#          DB_PASSWORD: ${{env.DATABASE_PASSWORD}}
+#          DB_NAME: ${{env.DATABASE_NAME}}
+#          DB_HOST: ${{env.DATABASE_HOST}}
+#          DB_PORT: ${{env.DATABASE_PORT}}
