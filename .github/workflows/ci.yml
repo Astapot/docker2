@@ -45,7 +45,7 @@ jobs:
         run: flake8 3.2-crud/stocks_products/logistic --exclude 3.2-crud/stocks_products/logistic/migrations
 
       - name: Тестирование
-        run: python manage.py test
+        run: python 3.2-crud/stocks_products/manage.py test
         env:
           ALLOWED_HOSTS: ${{env.HOSTS}}
           DEBUG: ${{env.IS_DEBUG}}
