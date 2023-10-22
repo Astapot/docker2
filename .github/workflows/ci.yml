@@ -37,9 +37,9 @@ jobs:
         
       - name: Установка python и доп библиотек
         uses: actions/setup-python@v4
-#
-#      - name: Установка зависимостей проекта
-#        run: pip install -r requirements.txt
+
+      - name: Установка зависимостей проекта
+        run: pip install -r /home/astapot/django/3.2-crud/stocks_products/requirements.txt
 
       - name: Линтинг
         run: flake8 logistic --exclude logistic/migrations
