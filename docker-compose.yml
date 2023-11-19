@@ -1,0 +1,34 @@
+version: "3.9"
+
+volumes:
+  pgdata:
+
+services:
+  postgres:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_DB: my_db1
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 99113322vfrcbv
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  backend:
+    build: ./3.2-crud/stocks_products
+    command: gunicorn stocks_products.wsgi:application -b 0.0.0.0:8000
+    volumes:
+      - ./3.2-crud/stocks_products/static/:/3.2-crud/stocks_products/static/
+    env_file:
+      ./3.2-crud/.env
+    depends_on:
+      - postgres
+
+  nginx:
+    build: ./nginx
+    volumes:
+      - ./3.2-crud/stocks_products/static/:/stocks_products/static/:ro
+    ports:
+      - 8000:80
+    depends_on:
+      - backend
